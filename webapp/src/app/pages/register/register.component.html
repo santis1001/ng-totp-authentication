@@ -1,0 +1,11 @@
+<app-container>
+  <app-card ngTitle="Registrar Cuenta" ngStyle="flex flex-col gap-1 justify-items-center">
+    <app-input #inputComponent [formControl]="formControl" label="Email"
+               [isInvalid]="formControl.invalid && formControl.touched"></app-input>
+
+    <app-button (click)="!saved?submit():null"
+                [disabled]="saved">{{ saved ? 'El usuario ya fue registrado' : 'Registrarse' }}
+    </app-button>
+
+  </app-card>
+</app-container>

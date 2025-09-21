@@ -1,0 +1,16 @@
+<div [class]="'mb-2 mt-1' + (vertical() && !!label() ? '' : ' row')">
+  @if (label()) {
+    <label [for]="uuid" class="block text-sm/6 font-medium text-gray-100">{{ label() }}</label>
+  }
+  <div class="col-sm">
+    <input #textInputRef [id]="uuid" [type]="type()"
+           class="{{style}} {{showError()? 'outline-red-500':'outline-white/10'}}" [placeholder]="placeholder()"
+           [value]="value" (input)="updateValue($event)" (blur)="onTouched()"
+           [readonly]="ngDisabled || null"/>
+    @if (showError()) {
+
+      <span class="text-red-500 text-xs">el texto ingresado es invalido</span>
+    }
+  </div>
+</div>
+

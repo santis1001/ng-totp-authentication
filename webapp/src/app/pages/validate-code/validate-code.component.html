@@ -1,0 +1,20 @@
+<app-container>
+  <app-card ngTitle="Validar codigo" ngStyle="flex flex-col gap-1 justify-items-center">
+    <form id="otp-form" class="flex gap-2">
+      <input #digit1 type="text" maxlength="1" [class]="totpStyle" (keydown)="!REGEX_CHARS_ALLOWED.onlyNumbers.test($event.key)?$event.preventDefault():null" (keyup)="digit1.value.length > 0? digit2.focus(): null"  (keyup.backspace)="isValid = false; "               />
+      <input #digit2 type="text" maxlength="1" [class]="totpStyle" (keydown)="!REGEX_CHARS_ALLOWED.onlyNumbers.test($event.key)?$event.preventDefault():null" (keyup)="digit2.value.length > 0? digit3.focus(): null"  (keyup.backspace)="isValid = false; digit1.focus()" />
+      <input #digit3 type="text" maxlength="1" [class]="totpStyle" (keydown)="!REGEX_CHARS_ALLOWED.onlyNumbers.test($event.key)?$event.preventDefault():null" (keyup)="digit3.value.length > 0? digit4.focus(): null"  (keyup.backspace)="isValid = false; digit2.focus()" />
+      <input #digit4 type="text" maxlength="1" [class]="totpStyle" (keydown)="!REGEX_CHARS_ALLOWED.onlyNumbers.test($event.key)?$event.preventDefault():null" (keyup)="digit4.value.length > 0? digit5.focus(): null"  (keyup.backspace)="isValid = false; digit3.focus()" />
+      <input #digit5 type="text" maxlength="1" [class]="totpStyle" (keydown)="!REGEX_CHARS_ALLOWED.onlyNumbers.test($event.key)?$event.preventDefault():null" (keyup)="digit5.value.length > 0? digit6.focus(): null"  (keyup.backspace)="isValid = false; digit4.focus()" />
+      <input #digit6 type="text" maxlength="1" [class]="totpStyle" (keydown)="!REGEX_CHARS_ALLOWED.onlyNumbers.test($event.key)?$event.preventDefault():null" (keyup)="isValid = true"                                 (keyup.backspace)="isValid = false; digit5.focus()" />
+    </form>
+    <br>
+
+    @if(!codeValidation){
+      <app-button #submitButton (click)="submit()" [disabled]="!isValid">Validar</app-button>
+    } @else {
+      <app-button #submitButton type="Green">El código se valido correctamente</app-button>
+
+    }
+  </app-card>
+</app-container>

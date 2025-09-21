@@ -1,0 +1,24 @@
+<div class="h-full flex flex-col">
+
+  <div class="flex-grow flex justify-center-safe items-center">
+    @switch (activeWindow) {
+      @case ('registerAccount') {
+        <app-icon icon="blank"/>
+        <app-register class="w-md" (submitted)="markAsDone('registerAccount');" [formControl]="registerUserFormControl"></app-register>
+        <app-icon class="cursor-pointer" icon="chevron_right" (click)="next()"/>
+      }
+      @case ('registerQr') {
+        <app-icon class="cursor-pointer" icon="chevron_left" (click)="prev()"/>
+        <app-generate-code (submitted)="markAsDone('registerQr');"></app-generate-code>
+        <app-icon class="cursor-pointer" icon="chevron_right" (click)="next()"/>
+      }
+      @case ('ValidateAuth') {
+        <app-icon class="cursor-pointer" icon="chevron_left" (click)="prev()"/>
+        <app-validate-code></app-validate-code>
+        <app-icon icon="blank"/>
+      }
+    }
+  </div>
+
+  <app-stepper class="p-5" [steps]="steps"></app-stepper>
+</div>
