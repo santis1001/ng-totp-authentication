@@ -1,4 +1,4 @@
-const baseHref = 'http://localhost:8080'
+const baseHref = '.'
 const context = '/api/v1/totp'
 
 export const apiConfig = {
