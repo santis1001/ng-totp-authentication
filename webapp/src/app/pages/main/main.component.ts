@@ -48,6 +48,7 @@ export class MainComponent implements OnInit {
   }
   private windows = ["registerAccount", "registerQr", "ValidateAuth"];
   private _activeWindow: "registerAccount" | "registerQr" | "ValidateAuth" = 'registerAccount';
+  protected startRedirect = false;
 
   steps: StepperSet = [
     {
@@ -151,7 +152,7 @@ export class MainComponent implements OnInit {
     if (token)
       this._authenticationService.checkScannedStatus(token)
         .subscribe(status => {
-          this.markAsDone('registerQr');
+          this.startRedirect = true
         })
   }
 

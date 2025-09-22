@@ -13,7 +13,12 @@
       }
     </div>
     <br>
-    <app-button (click)="submit()">Listo</app-button>
+    @if (doExternalSubmit) {
+      <app-button disabled>
+        <app-icon icon="progress"/> Redirigiendo...</app-button>
+    } @else {
+      <app-button (click)="submit()">Listo</app-button>
+    }
 
   </app-card>
 </app-container>

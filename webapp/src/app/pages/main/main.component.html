@@ -9,7 +9,7 @@
       }
       @case ('registerQr') {
         <app-icon class="cursor-pointer" icon="chevron_left" (click)="prev()"/>
-        <app-generate-code class="w-md" (submitted)="submitScanned();" [token]="token"></app-generate-code>
+        <app-generate-code class="w-md" (submitted)="submitScanned();" [token]="token" [doExternalSubmit]="startRedirect"></app-generate-code>
         <app-icon class="cursor-pointer" icon="chevron_right" (click)="next()"/>
       }
       @case ('ValidateAuth') {
