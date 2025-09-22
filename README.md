@@ -29,11 +29,17 @@ Copiamos el valor de IPv4 Address y lo ponemos en la configuración
 `server.app.address=http://192.168.x.xx:8080/api/v1/totp/scan/{1}`
 
 3. Si tenemos las extenciones de Java de microsoft apareceran los apartados `JAVA PROJECT` y `MAVEN` en el apartado de explorador. Abrimos el de `MAVEN`
-![img.png](./.docs/img-4.png)
+
+   ![img.png](./.docs/img-4.png)
 4. Ejecutamos `clean` y `install`
 5. Abrimos el archivo principal de la app `src\main\java\com\authentication\server\ServerApplication.java`
 6. En la pantalla de visor de archivos aparece el icono de play ![img.png](./.docs/img-5.png)
-7. Seleccionamos `Run Java` o `Debu`
+7. Seleccionamos `Run Java` o `Debug Java` segun necesitemos.
+
+    ![img.png](./.docs/img-6.png)
+8. la abrira la terminal y mostrara los siguiente.
+   ![img.png](./.docs/img-7.png)
+
 ## Compilar App
 Pasos para compilar app     
 
@@ -54,3 +60,23 @@ Con la configuracion del angular.json
         }
 ```
 La ruta `../server/src/main/resources/static` es la ruta donde el build de la app de angular se almacenara, este folder esta en el modulo de Server, en documentos estaticos. estos se exponen desde el servidor de java, hara que las apis y el front esten en la misma url con el puerto.
+
+## Validar la app 
+En la ruta de nuestro equipo [http://192.168.x.xx:8080/](http://192.168.x.xx:8080/) nos mostrara nuestra app front-end desde nuestro servidor back-end
+![img.png](./.docs/img-8.png)
+
+## Flujo de la app
+
+### Registro
+![img.png](./.docs/img-9.png)
+
+### Codigo QR
+![img.png](./.docs/img-10.png)
+
+### Llavero de tokens
+Cuando escaneemos el qr en el movil nos redirigira a una app de autenticacion por token.
+entonces nos aparecera el codigo bajo el alias de demo:``[el correo que registremos]`` y un codigo de 6 digitos. 
+
+### Valdacion de token
+Utilizamos el token del llavero para ingresarlo en la aplicacion web
+![img.png](./.docs/img-11.png)
