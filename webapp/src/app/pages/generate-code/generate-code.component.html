@@ -1,7 +1,18 @@
 <app-container>
   <app-card ngTitle="Escanee el Codigo QR" ngStyle="flex flex-col gap-1 justify-items-center">
-    <img src="" alt=""/>
-
+    <div class="flex justify-center">
+      @if (imageUrl) {
+        <img class="box-border size-32" [src]="imageUrl" alt="Qr image"/>
+      } @else {
+        <div class="box-border size-32 bg-gray-500 animate-pulse grid grid-cols-2 grid-rows-2 gap-2 p-2">
+          <div class="box-border size-8 bg-gray-600 animate-pulse place-self-start"></div>
+          <div class="box-border size-8 bg-gray-600 animate-pulse justify-self-end"></div>
+          <div class="box-border size-8 bg-gray-600 animate-pulse self-end"></div>
+          <div class=""></div>
+        </div>
+      }
+    </div>
+    <br>
     <app-button (click)="submit()">Listo</app-button>
 
   </app-card>

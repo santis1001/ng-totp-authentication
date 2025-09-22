@@ -1,5 +1,5 @@
-import {Component, EventEmitter, OnInit} from '@angular/core';
-import {FormControl, Validators} from "@angular/forms";
+import {Component, EventEmitter, inject, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {IconComponent} from "@AppComponents/icon/icon.component";
 import {StepperComponent} from "@AppComponents/stepper/stepper.component";
 import {StepperSet} from "@AppComponents/stepper/stepper.utils";
@@ -7,6 +7,7 @@ import {REGEX_VALIDATION_PATTERNS} from "@AppConstants/regex.constants";
 import {GenerateCodeComponent} from "@AppPages/generate-code/generate-code.component";
 import {RegisterComponent} from "@AppPages/register/register.component";
 import {ValidateCodeComponent} from "@AppPages/validate-code/validate-code.component";
+import {AuthenticationService} from "@AppServices/authentication.service";
 
 @Component({
   selector: 'app-main',
@@ -22,7 +23,18 @@ import {ValidateCodeComponent} from "@AppPages/validate-code/validate-code.compo
 })
 export class MainComponent implements OnInit {
 
-  readonly registerUserFormControl: FormControl = new FormControl('null@null.com', [Validators.required, Validators.pattern(REGEX_VALIDATION_PATTERNS.email)]);
+  private readonly fb = inject(FormBuilder);
+
+  protected readonly registerUserFormControl: FormControl = new FormControl(null, [Validators.required, Validators.pattern(REGEX_VALIDATION_PATTERNS.email)]);
+  protected readonly validateCodeFormControl: FormControl = new FormControl(null, [Validators.required, Validators.requiredTrue]);
+
+  private readonly userFormGroup: FormGroup = this.fb.group({
+    token: [null],
+    code: this.validateCodeFormControl,
+    email: this.registerUserFormControl
+  });
+
+  private readonly _authenticationService = inject(AuthenticationService);
 
   protected events = {
     registerAccount: new EventEmitter(),
@@ -30,7 +42,7 @@ export class MainComponent implements OnInit {
     ValidateAuth: new EventEmitter(),
   }
   protected status = {
-    registerAccount: true,
+    registerAccount: false,
     registerQr: false,
     ValidateAuth: false
   }
@@ -41,7 +53,7 @@ export class MainComponent implements OnInit {
     {
       name: 'registerAccount',
       displayName: 'Registro de Cuenta',
-      value: true,
+      value: false,
       event: () => this.events.registerAccount.emit()
     },
     {
@@ -75,7 +87,12 @@ export class MainComponent implements OnInit {
 
   }
 
-  prev() {
+  protected get token(){
+    const token: string | null = this.userFormGroup.get("token")!.value??null;
+    return token;
+  }
+
+  protected prev() {
     console.log('click')
     switch (this.activeWindow) {
       case "registerAccount":
@@ -89,7 +106,7 @@ export class MainComponent implements OnInit {
     }
   }
 
-  next() {
+  protected next() {
     console.log('click')
     switch (this.activeWindow) {
       case "registerAccount":
@@ -103,18 +120,51 @@ export class MainComponent implements OnInit {
     }
   }
 
-  markAsDone(str: "registerAccount" | "registerQr" | "ValidateAuth") {
+  private markAsDone(str: "registerAccount" | "registerQr" | "ValidateAuth") {
     this.status[str] = true;
     this.steps.find(y => y.name == str)!.value = true
     this.next()
   }
 
-  set activeWindow(str: "registerAccount" | "registerQr" | "ValidateAuth") {
+  protected set activeWindow(str: "registerAccount" | "registerQr" | "ValidateAuth") {
     if (this.status[this._activeWindow])
       this._activeWindow = str
   }
 
-  get activeWindow(): "registerAccount" | "registerQr" | "ValidateAuth" {
+  protected get activeWindow(): "registerAccount" | "registerQr" | "ValidateAuth" {
     return this._activeWindow;
   }
+
+  protected submitUser() {
+    if (this.registerUserFormControl.invalid) return;
+
+    this._authenticationService.registerUser(this.registerUserFormControl.value)
+      .subscribe(response => {
+        this.userFormGroup.get('token')!.setValue(response);
+        this.markAsDone('registerAccount');
+        this.startAutomaticValidation();
+      });
+  }
+
+  private startAutomaticValidation() {
+    let token: string = this.userFormGroup.get('token')!.value;
+    if (token)
+      this._authenticationService.checkScannedStatus(token)
+        .subscribe(status => {
+          this.markAsDone('registerQr');
+        })
+  }
+
+  protected submitScanned() {
+    this.markAsDone('registerQr');
+  }
+
+  protected validateCode(code: string) {
+    this._authenticationService.validateCode(Number(code), this.registerUserFormControl.value)
+      .subscribe(response => {
+        this.validateCodeFormControl.setValue(response.valid);
+        this.markAsDone('ValidateAuth');
+      })
+  }
+
 }
