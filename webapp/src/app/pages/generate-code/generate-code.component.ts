@@ -16,6 +16,7 @@ import {interval, take} from "rxjs";
     IconComponent,
   ],
   templateUrl: './generate-code.component.html',
+  standalone: true,
   styleUrl: './generate-code.component.css'
 })
 export class GenerateCodeComponent {

@@ -6,6 +6,7 @@ import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
   selector: 'app-icon',
   imports: [],
   template: '<div [innerHTML]="fileContent()"></div>',
+  standalone: true
 })
 export class IconComponent {
   private _iconPath: WritableSignal<string> = signal<string>('');

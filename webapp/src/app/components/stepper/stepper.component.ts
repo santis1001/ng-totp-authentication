@@ -8,6 +8,7 @@ import {StepperSet} from "@AppComponents/stepper/stepper.utils";
     IconComponent
   ],
   templateUrl: './stepper.component.html',
+  standalone: true,
   styleUrl: './stepper.component.css'
 })
 export class StepperComponent {

@@ -4,6 +4,7 @@ import {booleanAttribute, Component, Input, input, InputSignal, signal, ViewChil
   selector: 'app-button',
   imports: [],
   templateUrl: './button.html',
+  standalone: true,
   styleUrl: './button.css'
 })
 export class Button {

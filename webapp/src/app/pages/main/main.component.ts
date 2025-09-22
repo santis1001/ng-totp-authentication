@@ -19,6 +19,7 @@ import {AuthenticationService} from "@AppServices/authentication.service";
     ValidateCodeComponent
   ],
   templateUrl: './main.component.html',
+  standalone: true,
   styleUrl: './main.component.css'
 })
 export class MainComponent implements OnInit {

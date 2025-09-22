@@ -14,6 +14,7 @@ import {REGEX_CHARS_ALLOWED} from "@AppConstants/regex.constants";
     FormsModule,
   ],
   templateUrl: './validate-code.component.html',
+  standalone: true,
   styleUrl: './validate-code.component.css'
 })
 export class ValidateCodeComponent {

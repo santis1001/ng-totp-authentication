@@ -15,6 +15,7 @@ import {InputComponent} from "@AppComponents/input/input.component";
     ReactiveFormsModule
   ],
   templateUrl: './register.component.html',
+  standalone: true,
   styleUrl: './register.component.css'
 })
 export class RegisterComponent implements OnInit, AfterViewInit{

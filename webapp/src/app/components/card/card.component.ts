@@ -4,6 +4,7 @@ import {Component, input, InputSignal} from '@angular/core';
   selector: 'app-card',
   imports: [],
   templateUrl: './card.component.html',
+  standalone: true,
   styleUrl: './card.component.css'
 })
 export class CardComponent {
